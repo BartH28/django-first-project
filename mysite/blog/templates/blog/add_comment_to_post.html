@@ -2,8 +2,16 @@
 
 {% block content %}
     <h1>New comment</h1>
-    <form method="POST" class="post-fomr">{% csrf_token %}
-        {{ form.as_p }}
+    <form method="POST" class="post-form">{% csrf_token %}
+        <!-- {{ form.author.errors }}
+        <label for="{{ form.author.id_for_label }}">Author:</label>
+        {{ form.author }} -->
+
+        {{ form.text.errors }}
+        <label for="{{ form.text.id_for_label }}">Text:</label>
+        {{ form.text }}
+
+        <!-- {{ form.as_p }} -->
         <button type="submit" class="save btn btn-primary">Send</button>    
     </form>
 {% endblock %}

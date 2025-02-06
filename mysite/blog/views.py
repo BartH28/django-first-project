@@ -50,7 +50,7 @@ def post_edit(request, pk):
 
 @login_required
 def post_draft_list(request):
-    posts = Post.objects.filter(published_date__isnull=True).order_by('-created_date')
+    posts = Post.objects.filter(published_date__isnull=True, author__exact=request.user).order_by('-created_date')
     return render(request, 'blog/post_draft_list.html', {'posts': posts})
 
 @login_required
@@ -73,6 +73,7 @@ def add_comment_to_post(request, pk):
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
+            comment.author = request.user.username if request.user.username else "Anonymous Ghost" 
             comment.post = post
             comment.save()
             return redirect('post_detail', pk=post.pk)
